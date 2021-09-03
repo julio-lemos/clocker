@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<img src=".github/logo_dark.svg" />
 
-## Getting Started
+&nbsp;
+# Clocker Work
+![Badge](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![Badge](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black) ![Badge](https://img.shields.io/badge/Chakra--UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=white) ![Badge](https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)
 
-First, run the development server:
+&nbsp;
+- [Clocker Work](#clocker-work)
+  - [Sobre](#sobre)
+  - [Status](#status)
+  - [Features](#features)
+  - [Pré-requisitos](#pré-requisitos)
+  - [Protótipo Figma](#protótipo-figma)
+  - [Tecnologias](#tecnologias)
+  - [Como iniciar aplicação](#como-iniciar-aplicação)
 
+&nbsp;
+## Sobre
+Projeto desenvolvido durante projeto full-stack da [codar.me](https://codar.me/).
+
+## Status
+🚧 Em construção. 🚧
+
+## Features
+- [x] Cadastro de usuário
+- [x] Login
+- [ ] Calendário de horários
+- [ ] Agenda pública e privada
+
+## Pré-requisitos
+- [Node.Js](https://nodejs.org/en/)
+- [VSCode](https://code.visualstudio.com/)
+
+## Protótipo Figma
+<a href="https://www.figma.com/file/OlPhiP13rGlapw5OOuQDOV/Clocker?node-id=6%3A177"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Figma"></a> &nbsp; &nbsp;
+
+## Tecnologias
+- [Next.Js](https://nextjs.org/)
+- [Firebase](https://firebase.google.com/?hl=pt)
+
+## Como iniciar aplicação
 ```bash
-npm run dev
-# or
-yarn dev
+
+# Clone a aplicação
+$ https://github.com/julio-lemos/cloker.git
+
+# Preencha as informações do seu projeto firebase no seu arquivo .env (.env.example no projeto)
+
+# Instale as dependências
+$ yarn
+
+# Inicie o projeto
+$ yarn dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+&nbsp;
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+🎇 Thanks for all.
