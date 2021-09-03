@@ -12,6 +12,8 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
+  InputGroup,
+  InputLeftAddon,
 } from '@chakra-ui/react';
 
 import { Logo } from './../components';
@@ -23,6 +25,7 @@ const validationSchema = yup.object().shape({
     .email('E-mail inválido')
     .required('Preenchimento obrigatório'),
   password: yup.string().required('Preenchimento obrigatório'),
+  username: yup.string().required('Preenchimento obrigatório'),
 });
 
 const Home: NextPage = () => {
@@ -39,7 +42,7 @@ const Home: NextPage = () => {
       try {
         const user = await firebase
           .auth()
-          .signInWithEmailAndPassword(values.email, values.password);
+          .createUserWithEmailAndPassword(values.email, values.password);
         console.log(user);
       } catch (err) {
         console.log(err);
@@ -48,6 +51,7 @@ const Home: NextPage = () => {
     validationSchema,
     initialValues: {
       email: '',
+      username: '',
       password: '',
     },
   });
@@ -94,6 +98,23 @@ const Home: NextPage = () => {
           )}
         </FormControl>
 
+        <FormControl id="username" p={4} isRequired>
+          <InputGroup>
+            <InputLeftAddon>clocker.work/</InputLeftAddon>
+            <Input
+              type="username"
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </InputGroup>
+          {touched.username && (
+            <FormHelperText textColor="#e74c3c">
+              {errors.username}
+            </FormHelperText>
+          )}
+        </FormControl>
+
         <Box p={4}>
           <Button
             colorScheme="blue"
@@ -106,7 +127,7 @@ const Home: NextPage = () => {
         </Box>
       </Box>
 
-      <Link href="/signup">Ainda não tem uma conta? Cadastre-se</Link>
+      <Link href="/">Já tem uma conta? Acesse</Link>
     </Container>
   );
 };
