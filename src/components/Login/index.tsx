@@ -12,12 +12,11 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  InputGroup,
-  InputLeftAddon,
 } from '@chakra-ui/react';
 
-import { Logo } from './../components';
-import firebase from './../config/firebase';
+import { Logo } from '../Logo';
+import firebase, { persistanceMode } from '../../config/firebase';
+import { useEffect } from 'react';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -25,10 +24,9 @@ const validationSchema = yup.object().shape({
     .email('E-mail inválido')
     .required('Preenchimento obrigatório'),
   password: yup.string().required('Preenchimento obrigatório'),
-  username: yup.string().required('Preenchimento obrigatório'),
 });
 
-const Home: NextPage = () => {
+export const Login: NextPage = () => {
   const {
     values,
     errors,
@@ -39,10 +37,12 @@ const Home: NextPage = () => {
     isSubmitting,
   } = useFormik({
     onSubmit: async (values, form) => {
+      firebase.auth().setPersistence(persistanceMode);
+
       try {
         const user = await firebase
           .auth()
-          .createUserWithEmailAndPassword(values.email, values.password);
+          .signInWithEmailAndPassword(values.email, values.password);
         console.log(user);
       } catch (err) {
         console.log(err);
@@ -51,7 +51,6 @@ const Home: NextPage = () => {
     validationSchema,
     initialValues: {
       email: '',
-      username: '',
       password: '',
     },
   });
@@ -98,23 +97,6 @@ const Home: NextPage = () => {
           )}
         </FormControl>
 
-        <FormControl id="username" p={4} isRequired>
-          <InputGroup>
-            <InputLeftAddon>clocker.work/</InputLeftAddon>
-            <Input
-              type="username"
-              value={values.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </InputGroup>
-          {touched.username && (
-            <FormHelperText textColor="#e74c3c">
-              {errors.username}
-            </FormHelperText>
-          )}
-        </FormControl>
-
         <Box p={4}>
           <Button
             colorScheme="blue"
@@ -122,14 +104,12 @@ const Home: NextPage = () => {
             onClick={onSubmit}
             isLoading={isSubmitting}
           >
-            Cadastrar
+            Entrar
           </Button>
         </Box>
       </Box>
 
-      <Link href="/">Já tem uma conta? Acesse</Link>
+      <Link href="/signup">Ainda não tem uma conta? Cadastre-se</Link>
     </Container>
   );
 };
-
-export default Home;
