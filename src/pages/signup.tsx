@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Logo } from './../components';
-import firebase from './../config/firebase';
+import { firebaseClient } from './../config/firebase';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
   } = useFormik({
     onSubmit: async (values, form) => {
       try {
-        const user = await firebase
+        const user = await firebaseClient
           .auth()
           .createUserWithEmailAndPassword(values.email, values.password);
         console.log(user);
