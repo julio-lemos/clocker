@@ -15,7 +15,8 @@ import {
 } from '@chakra-ui/react';
 
 import { Logo } from './../components';
-import firebase from './../config/firebase';
+import firebase, { persistanceMode } from './../config/firebase';
+import { useEffect } from 'react';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -36,6 +37,8 @@ const Home: NextPage = () => {
     isSubmitting,
   } = useFormik({
     onSubmit: async (values, form) => {
+      firebase.auth().setPersistence(persistanceMode);
+
       try {
         const user = await firebase
           .auth()
