@@ -2,8 +2,6 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 import {
   Container,
@@ -14,11 +12,11 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  InputGroup,
-  InputLeftAddon,
 } from '@chakra-ui/react';
 
-import { Logo, useAuth } from './../components';
+import { Logo, useAuth } from '../components';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -26,11 +24,10 @@ const validationSchema = yup.object().shape({
     .email('E-mail inválido')
     .required('Preenchimento obrigatório'),
   password: yup.string().required('Preenchimento obrigatório'),
-  username: yup.string().required('Preenchimento obrigatório'),
 });
 
-const Home: NextPage = () => {
-  const [auth, { signup }] = useAuth();
+const Login = () => {
+  const [auth, { login }] = useAuth();
   const router = useRouter();
 
   const {
@@ -42,11 +39,10 @@ const Home: NextPage = () => {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    onSubmit: signup,
+    onSubmit: login,
     validationSchema,
     initialValues: {
       email: '',
-      username: '',
       password: '',
     },
   });
@@ -97,23 +93,6 @@ const Home: NextPage = () => {
           )}
         </FormControl>
 
-        <FormControl id="username" p={4} isRequired>
-          <InputGroup>
-            <InputLeftAddon>clocker.work/</InputLeftAddon>
-            <Input
-              type="username"
-              value={values.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </InputGroup>
-          {touched.username && (
-            <FormHelperText textColor="#e74c3c">
-              {errors.username}
-            </FormHelperText>
-          )}
-        </FormControl>
-
         <Box p={4}>
           <Button
             colorScheme="blue"
@@ -121,14 +100,14 @@ const Home: NextPage = () => {
             onClick={onSubmit}
             isLoading={isSubmitting}
           >
-            Cadastrar
+            Entrar
           </Button>
         </Box>
       </Box>
 
-      <Link href="/">Já tem uma conta? Acesse</Link>
+      <Link href="/signup">Ainda não tem uma conta? Cadastre-se</Link>
     </Container>
   );
 };
 
-export default Home;
+export default Login;
