@@ -1,9 +1,8 @@
 import firebaseServer from 'firebase-admin';
-import { firebaseClient } from './client';
 
-const app = firebaseClient.apps.length
-  ? firebaseClient.app()
-  : firebaseClient.initializeApp({
+const app = firebaseServer.apps.length
+  ? firebaseServer.app()
+  : firebaseServer.initializeApp({
       credential: firebaseServer.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
         privateKey: process.env.FIREBASE_PRIVATE_KEY,
