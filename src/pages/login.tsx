@@ -1,23 +1,22 @@
-import type { NextPage } from 'next';
-import Link from 'next/link';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-
 import {
-  Container,
   Box,
-  Input,
   Button,
-  Text,
+  Container,
   FormControl,
-  FormLabel,
   FormHelperText,
+  FormLabel,
+  Input,
+  Text,
 } from '@chakra-ui/react';
-
-import { Logo, useAuth } from '../components';
+import { useFormik } from 'formik';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import * as yup from 'yup';
 
+import { Logo, useAuth } from '../components';
+
+import type { NextPage } from 'next';
 const validationSchema = yup.object().shape({
   email: yup
     .string()

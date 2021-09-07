@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+
 import { firebaseServer } from '../../config/firebase/server';
 
 const db = firebaseServer.firestore();

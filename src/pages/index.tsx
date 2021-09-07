@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
-import { useAuth } from './../components';
-import { Spinner, Container } from '@chakra-ui/react';
+import { Container, Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+import { useAuth } from './../components';
 
 export default function Home() {
   const [auth] = useAuth();

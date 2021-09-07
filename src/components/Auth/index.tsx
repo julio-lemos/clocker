@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+
 import { firebaseClient, persistanceMode } from '../../config/firebase/client';
 
 type Credentials = {
