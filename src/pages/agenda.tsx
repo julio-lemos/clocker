@@ -9,7 +9,7 @@ const Agenda = () => {
 
   useEffect(() => {
     !auth.user && router.push('/');
-  }, [auth.user]);
+  }, [auth.user, router]);
 
   return (
     <div>

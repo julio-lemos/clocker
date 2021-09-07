@@ -53,7 +53,7 @@ const Login = () => {
 
   useEffect(() => {
     auth.user && router.push('/agenda');
-  }, [auth.user]);
+  }, [auth.user, router]);
 
   return (
     <Container p={4} centerContent>
