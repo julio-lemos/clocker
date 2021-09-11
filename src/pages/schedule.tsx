@@ -1,0 +1,121 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  SimpleGrid,
+  Spinner,
+} from '@chakra-ui/react';
+import axios from 'axios';
+import { addDays, subDays } from 'date-fns';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
+import { formatDate, Logo, useAuth } from '../components';
+
+interface HeaderProps {
+  children: React.ReactNode;
+}
+
+const getSchedule = async (when: Date) => {
+  return await axios({
+    method: 'get',
+    url: '/api/schedule',
+    params: {
+      when,
+      username: window.location.pathname,
+    },
+  });
+};
+
+const Header = ({ children }: HeaderProps) => (
+  <Box p={4} display="flex" alignItems="center" justifyContent="space-between">
+    {children}
+  </Box>
+);
+
+interface timeBlockInterface {
+  time: any;
+}
+
+const TimeBlock = ({ time }: timeBlockInterface) => {
+  return (
+    <Button p={8} bg="blue.500" color="white">
+      {time}
+    </Button>
+  );
+};
+
+const Schedule = () => {
+  const [auth, { logout }] = useAuth();
+  const router = useRouter();
+  const [when, setWhen] = useState(() => new Date());
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>([]);
+
+  const addDay = () => {
+    setWhen(prevState => addDays(prevState, 1));
+  };
+  const removeDay = () => {
+    setWhen(prevState => subDays(prevState, 1));
+  };
+
+  useEffect(() => {
+    getSchedule(when).then(res => {
+      setLoading(false);
+      setData(res.data);
+    });
+  }, [when]);
+
+  console.log(data);
+
+  return (
+    <Container>
+      <Header>
+        <Logo size={150} />
+        <Button onClick={logout}>Sair</Button>
+      </Header>
+
+      <Box
+        mt={8}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <IconButton
+          aria-label="left"
+          icon={<ChevronLeftIcon />}
+          bg="transparent"
+          onClick={removeDay}
+        />
+
+        <Box>{formatDate(when, 'PPPP')}</Box>
+
+        <IconButton
+          aria-label="left"
+          icon={<ChevronRightIcon />}
+          bg="transparent"
+          onClick={addDay}
+        />
+      </Box>
+
+      <SimpleGrid p={4} columns={2} spacing={4}>
+        {loading && (
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        )}
+        {data.map((time: string) => (
+          <TimeBlock time={time} key={time} />
+        ))}
+      </SimpleGrid>
+    </Container>
+  );
+};
+
+export default Schedule;

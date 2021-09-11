@@ -16,7 +16,13 @@ export default function Home() {
 
   return (
     <Container p={8} centerContent>
-      <Spinner />
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
     </Container>
   );
 }
