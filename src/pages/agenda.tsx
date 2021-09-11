@@ -6,27 +6,25 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import { formatDate, Logo, useAuth } from '../components';
-
-interface getAgendaProps {
-  token?: string;
-  when: Date;
-}
+import { getToken } from '../config/firebase/client';
 
 interface HeaderProps {
   children: React.ReactNode;
 }
 
-const getAgenda = ({ token, when }: getAgendaProps) =>
-  axios({
+const getAgenda = async (when: Date) => {
+  const token = await getToken();
+  return axios({
     method: 'get',
     url: '/api/agenda',
     params: {
       when,
     },
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
+};
 
 const Header = ({ children }: HeaderProps) => (
   <Box p={4} display="flex" alignItems="center" justifyContent="space-between">
@@ -51,7 +49,7 @@ const Agenda = () => {
   }, [auth.user, router]);
 
   useEffect(() => {
-    getAgenda({ when });
+    getAgenda(when);
   }, [when]);
 
   return (
