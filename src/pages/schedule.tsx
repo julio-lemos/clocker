@@ -12,14 +12,14 @@ import { addDays, subDays } from 'date-fns';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import { formatDate, Logo, useAuth } from '../components';
+import { formatDate, Logo, TimeBlock, useAuth } from '../components';
 
 interface HeaderProps {
   children: React.ReactNode;
 }
 
-const getSchedule = async (when: Date) => {
-  return await axios({
+const getSchedule = async (when: Date) =>
+  axios({
     method: 'get',
     url: '/api/schedule',
     params: {
@@ -27,7 +27,6 @@ const getSchedule = async (when: Date) => {
       username: window.location.pathname,
     },
   });
-};
 
 const Header = ({ children }: HeaderProps) => (
   <Box p={4} display="flex" alignItems="center" justifyContent="space-between">
@@ -35,24 +34,12 @@ const Header = ({ children }: HeaderProps) => (
   </Box>
 );
 
-interface timeBlockInterface {
-  time: any;
-}
-
-const TimeBlock = ({ time }: timeBlockInterface) => {
-  return (
-    <Button p={8} bg="blue.500" color="white">
-      {time}
-    </Button>
-  );
-};
-
 const Schedule = () => {
   const [auth, { logout }] = useAuth();
   const router = useRouter();
   const [when, setWhen] = useState(() => new Date());
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState([]);
 
   const addDay = () => {
     setWhen(prevState => addDays(prevState, 1));
@@ -67,8 +54,6 @@ const Schedule = () => {
       setData(res.data);
     });
   }, [when]);
-
-  console.log(data);
 
   return (
     <Container>
