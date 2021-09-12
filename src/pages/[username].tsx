@@ -18,15 +18,23 @@ interface HeaderProps {
   children: React.ReactNode;
 }
 
-const getSchedule = async (when: Date) =>
-  axios({
+interface getScheduleInterface {
+  when: Date;
+  username: string;
+}
+
+const getSchedule = async (data: getScheduleInterface) => {
+  const { when, username } = data;
+
+  return axios({
     method: 'get',
     url: '/api/schedule',
     params: {
-      username: window.location.pathname.replace('/', ''),
+      username,
       date: format(when, 'yyyy-MM-dd'),
     },
   });
+};
 
 const Header = ({ children }: HeaderProps) => (
   <Box p={4} display="flex" alignItems="center" justifyContent="space-between">
@@ -49,11 +57,13 @@ const Schedule = () => {
   };
 
   useEffect(() => {
-    getSchedule(when).then(res => {
-      setLoading(false);
-      setData(res.data);
-    });
-  }, [when]);
+    getSchedule({ when, username: router.query.username as string })
+      .then(res => {
+        setLoading(false);
+        setData(res.data);
+      })
+      .catch(() => router.push('/'));
+  }, [when, router.query.username, router]);
 
   return (
     <Container>

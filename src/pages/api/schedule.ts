@@ -21,6 +21,10 @@ for (let blockIndex = 0; blockIndex <= totalHours; blockIndex++) {
 const getUserId = async (username: string) => {
   const profileDoc = await profileDb.where('username', '==', username).get();
 
+  if (!profileDoc.docs.length) {
+    return false;
+  }
+
   const { userId } = profileDoc.docs[0].data();
 
   return userId;
@@ -51,6 +55,10 @@ const setSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
 const getSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const userId = await getUserId(req.query.username as string);
+
+    if (!userId) {
+      return res.status(404).json({ message: 'Invalid username' });
+    }
 
     const snapshot = await agendaDb
       .where('userId', '==', userId)
