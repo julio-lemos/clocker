@@ -36,17 +36,18 @@ const setSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
   const doc = await agendaDb.doc(`${userId}#${req.body.when}`).get();
 
   if (doc.exists) {
-    return res.status(400);
+    res.status(400).json({ error: 'Time blocked!' });
+    return;
   }
 
-  await agendaDb.doc(`${userId}#${req.body.when}`).set({
+  const block = await agendaDb.doc(`${userId}#${req.body.when}`).set({
     userId,
     when: req.body.when,
     name: req.body.name,
     phone: req.body.phone,
   });
 
-  return res.status(200);
+  return res.status(200).json(block);
 };
 
 const getSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -63,6 +64,7 @@ const getSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json(timeBlocks);
   } catch (err) {
     console.log(`Error: ${err}`);
+    return res.status(401);
   }
 };
 

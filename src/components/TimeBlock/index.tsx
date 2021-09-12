@@ -34,6 +34,7 @@ const setSchedule = async (dataSchedule: ScheduleType) =>
 interface ModalTimeBlockInterface {
   isOpen: boolean;
   children: ReactNode;
+  isSubmitting: any;
   onComplete: () => void;
   onClose: () => void;
 }
@@ -42,6 +43,7 @@ const ModalTimeBlock = ({
   isOpen,
   onClose,
   onComplete,
+  isSubmitting,
   children,
 }: ModalTimeBlockInterface) => {
   return (
@@ -53,10 +55,18 @@ const ModalTimeBlock = ({
         <ModalBody>{children}</ModalBody>
 
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button colorScheme="blue" mr={3} onClick={onComplete}>
+          {!isSubmitting && (
+            <Button variant="ghost" onClick={onClose}>
+              Cancelar
+            </Button>
+          )}
+
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={onComplete}
+            isLoading={isSubmitting}
+          >
             Reservar horário
           </Button>
         </ModalFooter>
@@ -69,20 +79,32 @@ export const TimeBlock = ({ time }: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = () => setIsOpen(prevState => !prevState);
 
-  const { values, handleSubmit, handleChange, errors, touched, handleBlur } =
-    useFormik({
-      onSubmit: values => {
-        setSchedule({ ...values, when: time });
-      },
-      initialValues: {
-        name: '',
-        phone: '',
-      },
-      validationSchema: yup.object().shape({
-        name: yup.string().required('Preenchimento obrigatório'),
-        phone: yup.string().required('Preenchimento obrigatório'),
-      }),
-    });
+  const {
+    values,
+    handleSubmit,
+    handleChange,
+    errors,
+    touched,
+    handleBlur,
+    isSubmitting,
+  } = useFormik({
+    onSubmit: async values => {
+      try {
+        await setSchedule({ ...values, when: time });
+        toggle();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    initialValues: {
+      name: '',
+      phone: '',
+    },
+    validationSchema: yup.object().shape({
+      name: yup.string().required('Preenchimento obrigatório'),
+      phone: yup.string().required('Preenchimento obrigatório'),
+    }),
+  });
 
   return (
     <Button p={8} bg="blue.500" color="white" onClick={toggle}>
@@ -92,6 +114,7 @@ export const TimeBlock = ({ time }: any) => {
         isOpen={isOpen}
         onClose={toggle}
         onComplete={handleSubmit}
+        isSubmitting={isSubmitting}
       >
         <>
           <Input
@@ -102,6 +125,7 @@ export const TimeBlock = ({ time }: any) => {
             value={values.name}
             onChange={handleChange}
             onBlur={handleBlur}
+            disabled={isSubmitting}
             placeholder="Digite seu nome"
             size="lg"
           />
@@ -113,6 +137,7 @@ export const TimeBlock = ({ time }: any) => {
             value={values.phone}
             onChange={handleChange}
             onBlur={handleBlur}
+            disabled={isSubmitting}
             placeholder="(99) 9 9999-9999"
             size="lg"
             mt={4}
