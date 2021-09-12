@@ -1,4 +1,4 @@
-import { Container, Spinner } from '@chakra-ui/react';
+import { Container, Spinner, Box } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -15,14 +15,16 @@ export default function Home() {
   }, [auth.loading, auth.user, router]);
 
   return (
-    <Container p={8} centerContent>
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
-    </Container>
+    <Box height="100vh" display="flex" alignItems="center">
+      <Container p={8} centerContent>
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Container>
+    </Box>
   );
 }

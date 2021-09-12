@@ -161,6 +161,7 @@ const Agenda = () => {
                 />
               ) : (
                 <Box
+                  key={doc.time}
                   display="flex"
                   border="1px"
                   borderColor="#4E84D4"

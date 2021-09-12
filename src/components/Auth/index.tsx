@@ -1,3 +1,4 @@
+import { useBoolean } from '@chakra-ui/hooks';
 import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -28,7 +29,8 @@ export const login = async (credentials: Credentials) => {
     await firebaseClient.auth().signInWithEmailAndPassword(email, password);
     return firebaseClient.auth().currentUser;
   } catch (err) {
-    console.log('LOGIN ERROR: ', err);
+    console.log('Login ERROR', err);
+    alert('Usuário ou senha incorreta.');
   }
 };
 
@@ -40,7 +42,7 @@ export const signup = async (credentials: Credentials) => {
     const user = await login({ email, password });
 
     const token = await user?.getIdToken();
-    const { data } = await axios({
+    await axios({
       method: 'POST',
       url: '/api/profile',
       data: { username },
@@ -48,10 +50,9 @@ export const signup = async (credentials: Credentials) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log(data);
   } catch (err) {
-    console.log('SIGNUP ERROR: ', err);
+    console.log('SIGNUP ERROR', err);
+    alert('E-mail já cadastrado no sistema.');
   }
 };
 

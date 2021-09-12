@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Container,
@@ -13,7 +15,7 @@ import {
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 
 import { Logo, useAuth } from './../components';
@@ -50,7 +52,8 @@ const Home: NextPage = () => {
     },
   });
 
-  function onSubmit(): void {
+  function onSubmit(event: React.FormEvent) {
+    event.preventDefault();
     handleSubmit();
   }
 
@@ -66,7 +69,7 @@ const Home: NextPage = () => {
           <Text>Crie sua agenda compartilhada</Text>
         </Box>
 
-        <Box as="form">
+        <Box>
           <FormControl id="email" p={4} isRequired>
             <FormLabel>Email</FormLabel>
             <Input
