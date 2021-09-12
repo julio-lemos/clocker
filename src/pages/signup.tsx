@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 
   return (
     <Container p={4} centerContent>
-      <Logo />
+      <Logo size={300} />
       <Box p={4} mt={8}>
         <Text>Crie sua agenda compartilhada</Text>
       </Box>

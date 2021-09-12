@@ -1,7 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Container,
   IconButton,
   SimpleGrid,
@@ -12,7 +11,7 @@ import { addDays, format, subDays } from 'date-fns';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import { formatDate, Logo, TimeBlock, useAuth } from '../components';
+import { formatDate, Logo, TimeBlock } from '../components';
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -43,7 +42,6 @@ const Header = ({ children }: HeaderProps) => (
 );
 
 const Schedule = () => {
-  const [auth, { logout }] = useAuth();
   const router = useRouter();
   const [when, setWhen] = useState(() => new Date());
   const [loading, setLoading] = useState(true);
@@ -56,20 +54,25 @@ const Schedule = () => {
     setWhen(prevState => subDays(prevState, 1));
   };
 
-  useEffect(() => {
-    getSchedule({ when, username: router.query.username as string })
+  const refresh = () =>
+    getSchedule({
+      when,
+      username: router.query.username as string,
+    })
       .then(res => {
         setLoading(false);
         setData(res.data);
       })
       .catch(() => router.push('/'));
+
+  useEffect(() => {
+    refresh();
   }, [when, router.query.username, router]);
 
   return (
     <Container>
       <Header>
         <Logo size={150} />
-        <Button onClick={logout}>Sair</Button>
       </Header>
 
       <Box
@@ -106,7 +109,13 @@ const Schedule = () => {
           />
         )}
         {data.map(({ time, isBlocked }: any) => (
-          <TimeBlock time={time} key={time} date={when} disabled={isBlocked} />
+          <TimeBlock
+            time={time}
+            key={time}
+            date={when}
+            disabled={isBlocked}
+            onSuccess={refresh}
+          />
         ))}
       </SimpleGrid>
     </Container>

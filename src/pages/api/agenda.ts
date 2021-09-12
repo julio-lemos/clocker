@@ -14,12 +14,15 @@ const agenda = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const { user_id } = await firebaseServer.auth().verifyIdToken(token);
-    const snashot = await agendaDb
+
+    const snapshot = await agendaDb
       .where('userId', '==', user_id)
-      .where('when', '==', req.query.when)
+      .where('date', '==', req.query.date)
       .get();
 
-    return res.status(200).json(snashot.docs);
+    const docs = snapshot.docs.map(doc => doc.data());
+
+    return res.status(200).json(docs);
   } catch (err) {
     console.log(`Error: ${err}`);
   }
