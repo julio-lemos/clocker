@@ -11,11 +11,11 @@ const startAt = new Date(2021, 1, 1, 8, 0);
 const endAt = new Date(2021, 1, 1, 17, 0);
 const totalHours = differenceInHours(endAt, startAt);
 
-const timeBlocks: string[] = [];
+const timeBlocksList: string[] = [];
 
 for (let blockIndex = 0; blockIndex <= totalHours; blockIndex++) {
   const time = format(addHours(startAt, blockIndex), 'HH:mm');
-  timeBlocks.push(time);
+  timeBlocksList.push(time);
 }
 
 const getUserId = async (username: string) => {
@@ -50,16 +50,20 @@ const setSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const getSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    // const profileDoc = await profileDb
-    //   .where('username', '==', req.query.username)
-    //   .get();
+    const userId = await getUserId(req.query.username as string);
 
-    // const snapshot = await agendaDb
-    //   .where('userId', '==', profileDoc.userId)
-    //   .where('when', '==', req.query.when)
-    //   .get();
+    const snapshot = await agendaDb
+      .where('userId', '==', userId)
+      .where('date', '==', req.query.date)
+      .get();
 
-    return res.status(200).json(timeBlocks);
+    const docs = snapshot.docs.map(doc => doc.data());
+    const result = timeBlocksList.map(time => ({
+      time,
+      isBlocked: Boolean(docs.find(doc => doc.time === time)),
+    }));
+
+    return res.status(200).json(result);
   } catch (err) {
     console.log(`Error: ${err}`);
     return res.status(401);

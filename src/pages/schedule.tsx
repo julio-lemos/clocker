@@ -8,7 +8,7 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { addDays, subDays } from 'date-fns';
+import { addDays, format, subDays } from 'date-fns';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -23,8 +23,8 @@ const getSchedule = async (when: Date) =>
     method: 'get',
     url: '/api/schedule',
     params: {
-      when,
-      username: window.location.pathname,
+      username: window.location.pathname.replace('/', ''),
+      date: format(when, 'yyyy-MM-dd'),
     },
   });
 
@@ -95,8 +95,8 @@ const Schedule = () => {
             size="xl"
           />
         )}
-        {data.map((time: string) => (
-          <TimeBlock time={time} key={time} date={when} />
+        {data.map(({ time, isBlocked }: any) => (
+          <TimeBlock time={time} key={time} date={when} disabled={isBlocked} />
         ))}
       </SimpleGrid>
     </Container>
