@@ -156,7 +156,8 @@ export const TimeBlock = ({ time, date, disabled }: TimeBlockInterface) => {
               onChange={handleChange}
               onBlur={handleBlur}
               disabled={isSubmitting}
-              placeholder="(99) 9 9999-9999"
+              mask="(99) 99999.9999"
+              placeholder="(99) 99999-9999"
               size="lg"
               mt={4}
             />
