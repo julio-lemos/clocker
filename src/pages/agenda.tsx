@@ -52,15 +52,22 @@ const AgendaBlock = (AgendaProps: AgendaBlocksProps) => {
     <Box
       display="flex"
       alignItems="center"
-      bg="gray.100"
-      borderRadius={8}
+      bg="#EDF2F7"
+      borderRadius={6}
       p={4}
       mt={2}
     >
-      <Box flex={1}>{time}</Box>
+      <Box flex={1}>
+        <Text color="#4E84D4" fontWeight="400">
+          {time}
+        </Text>
+      </Box>
+
       <Box>
         <Box textAlign="right">
-          <Text fontSize="xl">{name}</Text>
+          <Text fontSize="xl" fontWeight="700">
+            {name}
+          </Text>
           <Text>{phone}</Text>
         </Box>
       </Box>
@@ -87,6 +94,7 @@ const Agenda = () => {
   }, [auth.user, router]);
 
   useEffect(() => {
+    setLoading(true);
     getAgenda(when).then(res => {
       setData(res.data);
       setLoading(false);
@@ -94,54 +102,82 @@ const Agenda = () => {
   }, [when]);
 
   return (
-    <Container>
-      <Header>
-        <Logo size={150} />
-        <Button onClick={logout}>Sair</Button>
-      </Header>
-
-      <Box
-        mt={8}
+    <Box height="100vh" display="flex" alignItems="center">
+      <Container
+        height="100%"
         display="flex"
-        alignItems="center"
-        justifyContent="space-between"
+        flexDirection="column"
+        mt={5}
+        mb={5}
       >
-        <IconButton
-          aria-label="left"
-          icon={<ChevronLeftIcon />}
-          bg="transparent"
-          onClick={removeDay}
-        />
+        <Header>
+          <Logo size={180} />
+          <Button onClick={logout}>Sair</Button>
+        </Header>
 
-        <Box>{formatDate(when, 'PPPP')}</Box>
+        <Box
+          mt={8}
+          mb={8}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <IconButton
+            aria-label="left"
+            icon={<ChevronLeftIcon />}
+            bg="transparent"
+            onClick={removeDay}
+          />
 
-        <IconButton
-          aria-label="left"
-          icon={<ChevronRightIcon />}
-          bg="transparent"
-          onClick={addDay}
-        />
-      </Box>
+          <Box>{formatDate(when, 'PPPP')}</Box>
 
-      {loading && (
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      )}
+          <IconButton
+            aria-label="left"
+            icon={<ChevronRightIcon />}
+            bg="transparent"
+            onClick={addDay}
+          />
+        </Box>
 
-      {data?.map((doc: any) => (
-        <AgendaBlock
-          key={doc.time}
-          time={doc.time}
-          name={doc.name}
-          phone={doc.phone}
-        />
-      ))}
-    </Container>
+        <Box>
+          {loading ? (
+            <Box display="flex" justifyContent="center">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Box>
+          ) : (
+            data?.map((doc: any) =>
+              doc.information ? (
+                <AgendaBlock
+                  key={doc.information.time}
+                  time={doc.information.time}
+                  name={doc.information.name}
+                  phone={doc.information.phone}
+                />
+              ) : (
+                <Box
+                  display="flex"
+                  border="1px"
+                  borderColor="#4E84D4"
+                  borderRadius={6}
+                  alignItems="center"
+                  justifyContent="center"
+                  p={4}
+                  mt={2}
+                >
+                  <Text color="#4E84D4">{doc.time} - Livre</Text>
+                </Box>
+              ),
+            )
+          )}
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

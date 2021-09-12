@@ -59,74 +59,80 @@ const Home: NextPage = () => {
   }, [auth.user, router]);
 
   return (
-    <Container p={4} centerContent>
-      <Logo size={300} />
-      <Box p={4} mt={8}>
-        <Text>Crie sua agenda compartilhada</Text>
-      </Box>
+    <Box display="flex" alignItems="center" height="100vh" bg="gray.50">
+      <Container p={4} centerContent>
+        <Logo size={300} />
+        <Box p={4} mt={8}>
+          <Text>Crie sua agenda compartilhada</Text>
+        </Box>
 
-      <Box as="form">
-        <FormControl id="email" p={4} isRequired>
-          <FormLabel>Email</FormLabel>
-          <Input
-            size="lg"
-            type="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {touched.email && (
-            <FormHelperText textColor="#e74c3c">{errors.email}</FormHelperText>
-          )}
-        </FormControl>
-
-        <FormControl id="password" p={4} isRequired>
-          <FormLabel>Senha</FormLabel>
-          <Input
-            size="lg"
-            type="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {touched.password && (
-            <FormHelperText textColor="#e74c3c">
-              {errors.password}
-            </FormHelperText>
-          )}
-        </FormControl>
-
-        <FormControl id="username" p={4} isRequired>
-          <InputGroup>
-            <InputLeftAddon>clocker.work/</InputLeftAddon>
+        <Box as="form">
+          <FormControl id="email" p={4} isRequired>
+            <FormLabel>Email</FormLabel>
             <Input
-              type="username"
-              value={values.username}
+              size="lg"
+              type="email"
+              value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-          </InputGroup>
-          {touched.username && (
-            <FormHelperText textColor="#e74c3c">
-              {errors.username}
-            </FormHelperText>
-          )}
-        </FormControl>
+            {touched.email && (
+              <FormHelperText textColor="#e74c3c">
+                {errors.email}
+              </FormHelperText>
+            )}
+          </FormControl>
 
-        <Box p={4}>
-          <Button
-            colorScheme="blue"
-            width="100%"
-            onClick={onSubmit}
-            isLoading={isSubmitting}
-          >
-            Cadastrar
-          </Button>
+          <FormControl id="password" p={4} isRequired>
+            <FormLabel>Senha</FormLabel>
+            <Input
+              size="lg"
+              type="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {touched.password && (
+              <FormHelperText textColor="#e74c3c">
+                {errors.password}
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          <FormControl id="username" p={4} isRequired>
+            <InputGroup>
+              <InputLeftAddon>clocker.work/</InputLeftAddon>
+              <Input
+                type="username"
+                value={values.username}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </InputGroup>
+            {touched.username && (
+              <FormHelperText textColor="#e74c3c">
+                {errors.username}
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          <Box p={4}>
+            <Button
+              colorScheme="blue"
+              width="100%"
+              onClick={onSubmit}
+              isLoading={isSubmitting}
+            >
+              Cadastrar
+            </Button>
+          </Box>
         </Box>
-      </Box>
 
-      <Link href="/">Já tem uma conta? Acesse</Link>
-    </Container>
+        <Text color="gray.500">
+          <Link href="/">Já tem uma conta? Acesse</Link>
+        </Text>
+      </Container>
+    </Box>
   );
 };
 

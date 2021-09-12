@@ -98,8 +98,8 @@ const Schedule = () => {
         />
       </Box>
 
-      <SimpleGrid p={4} columns={2} spacing={4}>
-        {loading && (
+      {loading && (
+        <Box display="flex" justifyContent="center">
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -107,11 +107,13 @@ const Schedule = () => {
             color="blue.500"
             size="xl"
           />
-        )}
+        </Box>
+      )}
+      <SimpleGrid p={4} columns={2} spacing={4}>
         {data.map(({ time, isBlocked }: any) => (
           <TimeBlock
-            time={time}
             key={time}
+            time={time}
             date={when}
             disabled={isBlocked}
             onSuccess={refresh}
