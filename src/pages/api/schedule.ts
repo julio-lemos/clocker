@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { firebaseServer } from '../../config/firebase/server';
 
 const db = firebaseServer.firestore();
-const profileDb = db.collection('profile');
+const profileDb = db.collection('profiles');
 const agendaDb = db.collection('agenda');
 
 const startAt = new Date(2021, 1, 1, 8, 0);
@@ -18,15 +18,44 @@ for (let blockIndex = 0; blockIndex <= totalHours; blockIndex++) {
   timeBlocks.push(time);
 }
 
-console.log(timeBlocks);
+const getUserId = async (username: string) => {
+  const profileDoc = await profileDb.where('username', '==', username).get();
 
-const schedule = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { userId } = profileDoc.docs[0].data();
+
+  return userId;
+};
+
+interface getTimeBlockInterface {
+  when: Date;
+  userId: string;
+}
+
+const setSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req.body.username);
+  const doc = await agendaDb.doc(`${userId}#${req.body.when}`).get();
+
+  if (doc.exists) {
+    return res.status(400);
+  }
+
+  await agendaDb.doc(`${userId}#${req.body.when}`).set({
+    userId,
+    when: req.body.when,
+    name: req.body.name,
+    phone: req.body.phone,
+  });
+
+  return res.status(200);
+};
+
+const getSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // const profileDoc = await profileDb
     //   .where('username', '==', req.query.username)
     //   .get();
 
-    // const snashot = await agendaDb
+    // const snapshot = await agendaDb
     //   .where('userId', '==', profileDoc.userId)
     //   .where('when', '==', req.query.when)
     //   .get();
@@ -36,5 +65,15 @@ const schedule = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(`Error: ${err}`);
   }
 };
+
+const methods: any = {
+  POST: setSchedule,
+  GET: getSchedule,
+};
+
+const schedule = async (req: NextApiRequest, res: NextApiResponse) =>
+  methods[req.method as string]
+    ? methods[req.method as string](req, res)
+    : res.status(405);
 
 export default schedule;

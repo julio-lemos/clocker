@@ -8,11 +8,28 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { ReactNode, useState } from 'react';
 import * as yup from 'yup';
 
 import { Input } from '../Input';
+
+type ScheduleType = {
+  when: Date;
+  name: string;
+  phone: string;
+};
+
+const setSchedule = async (dataSchedule: ScheduleType) =>
+  axios({
+    method: 'post',
+    url: '/api/schedule',
+    data: {
+      ...dataSchedule,
+      username: window.location.pathname.replace('/', ''),
+    },
+  });
 
 interface ModalTimeBlockInterface {
   isOpen: boolean;
@@ -54,7 +71,9 @@ export const TimeBlock = ({ time }: any) => {
 
   const { values, handleSubmit, handleChange, errors, touched, handleBlur } =
     useFormik({
-      onSubmit: () => {},
+      onSubmit: values => {
+        setSchedule({ ...values, when: time });
+      },
       initialValues: {
         name: '',
         phone: '',
