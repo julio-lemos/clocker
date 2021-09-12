@@ -96,7 +96,7 @@ const Schedule = () => {
           />
         )}
         {data.map((time: string) => (
-          <TimeBlock time={time} key={time} />
+          <TimeBlock time={time} key={time} date={when} />
         ))}
       </SimpleGrid>
     </Container>
