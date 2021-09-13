@@ -25,6 +25,10 @@ interface getScheduleInterface {
 const getSchedule = async (data: getScheduleInterface) => {
   const { when, username } = data;
 
+  if (!username) {
+    return null;
+  }
+
   return axios({
     method: 'get',
     url: '/api/schedule',
@@ -61,13 +65,13 @@ const Schedule = () => {
     })
       .then(res => {
         setLoading(false);
-        setData(res.data);
+        setData(res?.data);
       })
-      .catch(() => router.push('/'));
+      .catch(err => console.log(err));
 
   useEffect(() => {
     refresh();
-  }, [when, router.query.username, router]);
+  }, [when, router.query.username]);
 
   return (
     <Container>
@@ -110,7 +114,7 @@ const Schedule = () => {
         </Box>
       )}
       <SimpleGrid p={4} columns={2} spacing={4}>
-        {data.map(({ time, isBlocked }: any) => (
+        {data?.map(({ time, isBlocked }: any) => (
           <TimeBlock
             key={time}
             time={time}

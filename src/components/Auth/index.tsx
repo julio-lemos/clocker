@@ -30,7 +30,6 @@ export const login = async (credentials: Credentials) => {
     return firebaseClient.auth().currentUser;
   } catch (err) {
     console.log('Login ERROR', err);
-    alert('Usuário ou senha incorreta.');
   }
 };
 
@@ -52,7 +51,6 @@ export const signup = async (credentials: Credentials) => {
     });
   } catch (err) {
     console.log('SIGNUP ERROR', err);
-    alert('E-mail já cadastrado no sistema.');
   }
 };
 

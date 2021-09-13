@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { firebaseServer } from '../../config/firebase/server';
 
 const db = firebaseServer.firestore();
+
 const profileDb = db.collection('profiles');
 const agendaDb = db.collection('agenda');
 
@@ -74,7 +75,6 @@ const getSchedule = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json(result);
   } catch (err) {
     console.log(`Error: ${err}`);
-    return res.status(401);
   }
 };
 
