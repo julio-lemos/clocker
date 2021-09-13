@@ -7,32 +7,34 @@
 &nbsp;
 - [Clocker Work](#clocker-work)
   - [Sobre](#sobre)
-  - [Status](#status)
   - [Features](#features)
   - [Pré-requisitos](#pré-requisitos)
-  - [Protótipo Figma](#protótipo-figma)
+  - [Screenshots](#screenshots)
   - [Tecnologias](#tecnologias)
   - [Como iniciar aplicação](#como-iniciar-aplicação)
+  - [Deploy do projeto](#deploy-do-projeto)
 
 &nbsp;
 ## Sobre
 Projeto desenvolvido durante projeto full-stack da [codar.me](https://codar.me/).
 
-## Status
-🚧 Em construção. 🚧
-
 ## Features
 - [x] Cadastro de usuário
 - [x] Login
-- [ ] Calendário de horários
-- [ ] Agenda pública e privada
+- [x] Calendário de horários
+- [x] Agenda pública e privada
 
 ## Pré-requisitos
 - [Node.Js](https://nodejs.org/en/)
 - [VSCode](https://code.visualstudio.com/)
 
-## Protótipo Figma
-<a href="https://www.figma.com/file/OlPhiP13rGlapw5OOuQDOV/Clocker?node-id=6%3A177"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Figma"></a> &nbsp; &nbsp;
+## Screenshots
+<img width="600px" src=".github/signup.png" />
+<img width="600px" src=".github/schedule.png" />
+<img width="600px" src="./.github/times.png" />
+
+
+&nbsp;
 
 ## Tecnologias
 - [Next.Js](https://nextjs.org/)
@@ -53,6 +55,9 @@ $ yarn
 $ yarn dev
 
 ```
+
+## Deploy do projeto
+https://clocker-murex.vercel.app/login
 
 &nbsp;
 
